@@ -21,6 +21,8 @@ specify a config file from the command line with `-c`
 
     qv -c ~/.nvaltrc
 
+qv has been tested on mac os x 10.8.4, and works just fine as long as your $LANG is set to en_US.UTF-8
+
 usage
 ---
 
