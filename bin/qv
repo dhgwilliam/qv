@@ -1,11 +1,28 @@
 #!/bin/env ruby
 require 'qv'
+require 'slop'
 
+opts = Slop.parse :help => true do
+  banner 'qv [options] [static query]'
+  on 'c', 'config=', 'specify a config file location'
+  on 'e', 'edit', 'open the top result (for static queries)'
 
-if ARGV.empty?
-  results = get_input
-  launch_editor(results)
-else
-  puts Note.sort_notes_by_date(get_matching_notes(ARGV.join(" "))).map {|note|
-    note.path}
+  run do |opts, args|
+    if opts[:config]
+      QV.read_config(:config_file => opts[:config]) 
+    else
+      QV.read_config
+    end
+
+    if args.empty?
+      get_input.edit
+    else
+      static_list = Note.sort_notes_by_date( get_matching_notes(args.join(" ")))
+      if opts[:edit]
+        static_list.first.edit
+      else
+        puts static_list.map {|note| note.path}
+      end
+    end
+  end
 end

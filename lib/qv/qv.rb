@@ -58,15 +58,5 @@ def display_list(search_term, matches, id = 0)
   }
 end
 
-def launch_editor(note)
-  editor = ENV["EDITOR"] || '/usr/bin/vim'
-  begin
-    exec "#{editor} \"#{note.path}\";clear" if note
-  rescue => e
-    puts e
-    puts "No matching note found"
-  end
-  system "clear"
-end
 
 

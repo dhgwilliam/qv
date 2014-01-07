@@ -29,6 +29,12 @@ class Note
     @title.match(/^.*#{search_term}.*$/i)
   end
 
+  def edit
+    editor = ENV["EDITOR"] || '/usr/bin/vim'
+    exec "#{editor} \"#{path}\";clear"
+    system "clear"
+  end
+
   def self.sort_notes_by_date(notes)
     notes.sort_by! { |note|
       File.mtime(note.path)}

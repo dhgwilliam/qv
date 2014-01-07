@@ -11,13 +11,15 @@ installation
 configuration
 ---
 
-configuration is simple. default folder for notes is ~/notes
+configuration is simple. the default folder for notes is `~/notes`
 
 if your notes are somewhere else:
 
-    echo "notes_dir = /somewhere/else" > ~/.nvalt
+    echo "notes_dir = /somewhere/else" > ~/.qvrc
 
-although i will probably change that filename soon
+specify a config file from the command line with `-c`
+
+    qv -c ~/.nvaltrc
 
 usage
 ---
@@ -27,6 +29,8 @@ run `qv`. start typing. results should update as you type.
 qv will search the contents and the filenames of notes in your notes_dir for the string you input. most recently edited notes at the top.
 
 select notes with ctrl-j/k, hit enter to edit. 
+
+`qv --help` is now moderately helpful
 
 as of right now, qv does not create a note if no note exists. this is not permanent.
 
@@ -39,7 +43,6 @@ todo
 
 good command line options:
 
-- specify a config file
 - specify a notes_dir
 - enable or disable "write-mode"
     - create note if no note exists
