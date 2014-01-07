@@ -1,0 +1,13 @@
+#!/bin/env ruby
+require 'qv'
+
+NOTES_DIR = File.read(File.join(ENV["HOME"],".nvalt")).match(/(?<=notes_dir = ).*$/)[0] || 
+  File.join(ENV["HOME"],"notes")
+
+if ARGV.empty?
+  results = get_input
+  launch_editor(results)
+else
+  puts Note.sort_notes_by_date(get_matching_notes(ARGV.join(" "))).map {|note|
+    note.path}
+end
