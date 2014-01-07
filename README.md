@@ -1,7 +1,7 @@
 intro
 ---
 
-qv is similar to the OSX application Notational Velocity/NValt
+qv is similar to the OSX application Notational Velocity/NValt but works via the CLI
 
 installation
 ---
