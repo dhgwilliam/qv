@@ -12,6 +12,7 @@ configuration
 ---
 
 configuration is simple. default folder for notes is ~/notes
+
 if your notes are somewhere else:
 
     echo "notes_dir = /somewhere/else" > ~/.nvalt
@@ -21,7 +22,6 @@ although i will probably change that filename soon
 usage
 ---
 
-make sure qv is somewhere in your path. 
 run `qv`. start typing. results should update as you type.
 
 qv will search the contents and the filenames of notes in your notes_dir for the string you input. most recently edited notes at the top.
