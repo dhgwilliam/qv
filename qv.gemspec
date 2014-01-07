@@ -8,7 +8,8 @@ Gem::Specification.new do |s|
   s.email       = 'dhgwilliam@gmail.com'
   s.files       = ["lib/qv.rb",
                     "lib/qv/note.rb",
-                    "lib/qv/qv.rb"
+                    "lib/qv/qv.rb",
+                    "lib/qv/qvconfig.rb"
                   ]
   s.homepage    =
     'https://github.com/dhgwilliam/qv'
