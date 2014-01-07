@@ -14,7 +14,7 @@ class Note
   end
 
   def path
-    @path || File.join(QvConfig::NOTES_DIR,@filename)
+    @path || File.join(QV.notes_dir,@filename)
   end
 
   def get_io
@@ -36,7 +36,7 @@ class Note
   end
 
   def self.get_notes
-    note_names = Dir.entries(QvConfig::NOTES_DIR).reject do |note_filename|
+    note_names = Dir.entries(QV.notes_dir).reject do |note_filename|
       exceptions = [
         "..",
         ".",
