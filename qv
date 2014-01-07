@@ -1,0 +1,137 @@
+#!/bin/env ruby
+require 'io/console'
+
+NOTES_DIR = File.read(File.join(ENV["HOME"],".nvalt")).match(/(?<=notes_dir = ).*$/)[0] || 
+  File.join(ENV["HOME"],"notes")
+
+class Note
+  attr_reader :filename
+
+  def initialize(args)
+    @filename = args[:file]
+    @title = title
+    @path = path
+  end
+
+  def title
+    @title || File.basename(@filename, File.extname(@filename))
+  end
+
+  def path
+    @path || File.join(NOTES_DIR,@filename)
+  end
+
+  def get_io
+    File.open(@path)
+  end
+
+  def matches?(search_term)
+    get_io.read.match(/^.*#{search_term}.*$/i)
+  end
+
+  def title_matches?(search_term)
+    @title.match(/^.*#{search_term}.*$/i)
+  end
+end
+
+def get_notes
+  note_names = Dir.entries(NOTES_DIR).reject do |note_filename|
+    exceptions = [
+      "..",
+      ".",
+      "Interim Note-Changes",
+      "Notes & Settings"
+    ]
+    exceptions.include?(note_filename) || 
+      note_filename.start_with?(".")
+  end
+  note_names.map do |file|
+    Note.new(:file => file)
+  end
+end
+
+def get_matching_notes(search_term)
+  matches = 
+    get_notes.map do |note|
+      if note.matches?(search_term) || note.title_matches?(search_term)
+          note
+      else
+        nil
+      end
+    end
+  matches.select { |note| note }
+end
+
+def sort_notes_by_date(notes)
+  notes.sort_by! { |note|
+    File.mtime(note.path)}
+  notes.reverse!
+end
+
+def get_input
+  search_term = ""
+  io = IO.console
+  position = 0
+  returned = false
+
+  until returned
+    char = io.getch
+    case char
+    when "\u007F" # backspace
+      search_term.slice!(-1)
+    when "\u0003" # C-c
+      exit
+    when "\e"  # esc
+      exit
+    when "\u0015" # C-u
+      search_term.replace ""
+    when "\r" # hard return
+      returned = true
+    when "\n" # C-j
+      position = position + 1
+    when "\v"  # C-k
+      position = position - 1
+    else
+      search_term << char
+    end
+    matches = sort_notes_by_date(get_matching_notes(search_term))
+    display_list(search_term, matches, position)
+  end
+   matches[position]
+end
+
+def display_list(search_term, matches, id = 0)
+  system("clear")
+  puts "#{search_term}: #{matches.count}"
+  notes =  matches.take(IO.console.winsize.first-2)
+  puts notes.map {|note| 
+    if notes.index(note) == id
+      "* #{note.title}"
+    else
+      note.title
+    end
+  }
+end
+
+def launch_editor(note)
+  editor = ENV["EDITOR"] || '/usr/bin/vim'
+  begin
+    exec "#{editor} \"#{note.path}\";clear" if note
+  rescue => e
+    puts e
+    puts "No matching note found"
+  end
+  system "clear"
+end
+
+def main
+  results = get_input
+  launch_editor(results)
+end
+
+if ARGV.empty?
+  main
+else
+  puts sort_notes_by_date(get_matching_notes(ARGV.join(" "))).map {|note|
+    note.path}
+end
