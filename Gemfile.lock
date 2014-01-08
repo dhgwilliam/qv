@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    qv (0.0.4)
+      slop
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -7,4 +13,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  slop
+  qv!
