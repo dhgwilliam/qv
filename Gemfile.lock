@@ -1,12 +1,17 @@
 PATH
   remote: .
   specs:
-    qv (0.0.4)
+    qv (0.0.5)
       slop
 
 GEM
   remote: https://rubygems.org/
   specs:
+    diff-lcs (1.2.5)
+    rspec-core (2.14.7)
+    rspec-expectations (2.14.4)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.14.4)
     slop (3.4.7)
 
 PLATFORMS
@@ -14,3 +19,6 @@ PLATFORMS
 
 DEPENDENCIES
   qv!
+  rspec-core
+  rspec-expectations
+  rspec-mocks

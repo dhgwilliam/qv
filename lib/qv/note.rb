@@ -3,10 +3,16 @@ require 'qv/qvconfig'
 class Note
   attr_reader :filename
 
-  def initialize(args)
-    @filename = args[:file]
+  def initialize(args = {})
+    @filename = validate(args[:file])
     @title = title
     @path = path
+  end
+  
+  def validate(filename)
+    raise ArgumentError, "Note requires a :file argument" unless filename
+    raise ArgumentError, "#{filename} contains an invalid character" unless filename.valid_encoding?
+    filename
   end
 
   def title
@@ -21,17 +27,21 @@ class Note
     File.open(@path)
   end
 
+  def body
+    get_io.read
+  end
+
   def matches?(search_term)
     begin
-      get_io.read.match(/^.*#{search_term}.*$/i)
+      body.match(/^.*#{search_term}.*$/i)
     rescue ArgumentError => e
-      puts "ERR: Contents of #{@filename}\n#{e}"
+      raise ArgumentError, "#{filename}: #{e}"
     end
   end
 
   def title_matches?(search_term)
     begin
-      @title.match(/^.*#{search_term}.*$/i)
+      title.match(/^.*#{search_term}.*$/i)
     rescue ArgumentError => e
       puts "ERR: Filename of #{@filename}\n#{e}"
     end
