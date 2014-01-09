@@ -22,11 +22,19 @@ class Note
   end
 
   def matches?(search_term)
-    get_io.read.match(/^.*#{search_term}.*$/i)
+    begin
+      get_io.read.match(/^.*#{search_term}.*$/i)
+    rescue ArgumentError => e
+      puts "ERR: Contents of #{@filename}\n#{e}"
+    end
   end
 
   def title_matches?(search_term)
-    @title.match(/^.*#{search_term}.*$/i)
+    begin
+      @title.match(/^.*#{search_term}.*$/i)
+    rescue ArgumentError => e
+      puts "ERR: Filename of #{@filename}\n#{e}"
+    end
   end
 
   def edit
