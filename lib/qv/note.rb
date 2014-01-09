@@ -28,7 +28,7 @@ class Note
   end
 
   def body
-    get_io.read
+    get_io.read.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
   end
 
   def matches?(search_term)
