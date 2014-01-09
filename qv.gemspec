@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'qv'
-  s.version     = '0.0.5'
+  s.version     = '0.1.0'
   s.date        = '2014-01-06'
   s.summary     = "nvalt-a-like for the cli"
   s.description = "nvalt-a-like for the cli"
