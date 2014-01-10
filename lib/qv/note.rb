@@ -28,7 +28,13 @@ class Note
   end
 
   def body
-    get_io.read.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    begin
+      get_io.read.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
+    rescue => e
+      # TODO write logger
+      # this seems hacky, but definitely works for now
+      ""
+    end
   end
 
   def matches?(search_term)
@@ -67,8 +73,7 @@ class Note
         "Interim Note-Changes",
         "Notes & Settings"
       ]
-      exceptions.include?(note_filename) || 
-        note_filename.start_with?(".")
+      exceptions.include?(note_filename) || note_filename.start_with?(".") || File.directory?(File.join(QV.notes_dir,note_filename))
     end
     note_names.map do |file|
       Note.new(:file => file)
