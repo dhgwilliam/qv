@@ -1,6 +1,8 @@
 intro
 ---
 
+[![Gem Version](https://badge.fury.io/rb/qv.png)](http://badge.fury.io/rb/qv)
+
 qv is similar to the OSX application Notational Velocity/NValt but works via the CLI
 
 installation
